@@ -1,0 +1,20 @@
+# Secrets: never commit the real .env file (only .env.example)
+.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Model files are rebuilt by "dvc repro". They must NOT be committed.
+# (artifacts/metrics.json is small and IS allowed in Git.)
+artifacts/model.joblib
+artifacts/model_card.json
+
+# The dataset CSV is tracked by DVC, not Git (DVC adds this too).
+data/raw/breast_cancer.csv
+
+# Local helper file made by tests/make_payload.py
+payload.json
