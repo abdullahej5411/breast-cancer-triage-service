@@ -1,0 +1,25 @@
+# params.yaml -- all settings for training live here.
+# train.py reads this file. DVC watches it: if you change a value,
+# DVC knows the "train" stage must run again.
+
+# One seed for everything random (the assignment requires 42).
+seed: 42
+
+data:
+  test_size: 0.2          # 80% train / 20% test
+  cv_folds: 5             # 5-fold stratified cross-validation
+  target_column: target   # name of the label column in the CSV
+
+evaluation:
+  decision_threshold: 0.5       # malignant if probability >= this value
+  min_malignant_recall: 0.95    # training FAILS if test recall is lower than this
+
+models:
+  logistic_regression:
+    C: 0.1                # smaller C = stronger regularization
+    max_iter: 1000
+    malignant_weight: 5   # a missed malignant case counts 5x more than a missed benign one
+  random_forest:
+    n_estimators: 300
+    max_depth: 8
+    malignant_weight: 5

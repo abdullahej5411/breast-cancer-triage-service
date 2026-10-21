@@ -1,0 +1,35 @@
+{
+  "selected_model": "logistic_regression",
+  "cross_validation": {
+    "logistic_regression": {
+      "malignant_recall": 0.9691,
+      "accuracy": 0.9537,
+      "roc_auc": 0.9928
+    },
+    "random_forest": {
+      "malignant_recall": 0.9259,
+      "accuracy": 0.9559,
+      "roc_auc": 0.9866
+    }
+  },
+  "test_all_candidates": {
+    "logistic_regression": {
+      "malignant_recall": 0.9756,
+      "malignant_precision": 0.9091,
+      "accuracy": 0.9537,
+      "roc_auc": 0.9967
+    },
+    "random_forest": {
+      "malignant_recall": 0.9512,
+      "malignant_precision": 1.0,
+      "accuracy": 0.9815,
+      "roc_auc": 1.0
+    }
+  },
+  "test": {
+    "malignant_recall": 0.9756,
+    "malignant_precision": 0.9091,
+    "accuracy": 0.9537,
+    "roc_auc": 0.9967
+  }
+}

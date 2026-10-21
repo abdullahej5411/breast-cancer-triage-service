@@ -1,0 +1,36 @@
+# dvc.yaml -- the DVC training pipeline (Task 8).
+# Run it with:  dvc repro
+#
+# DVC re-runs the "train" stage only when something listed under
+# "deps" or "params" has changed. Otherwise it skips it.
+
+stages:
+  train:
+    # The command DVC runs
+    cmd: python -m training.train --data-path data/raw/breast_cancer.csv --output-dir artifacts --model-version 1.0.0
+
+    # Inputs: if any of these change, the stage runs again
+    deps:
+      - data/raw/breast_cancer.csv     # the dataset (tracked by DVC)
+      - training/train.py              # the training script
+    params:                            # settings read from params.yaml
+      - seed
+      - data
+      - evaluation
+      - models
+
+    # Outputs: the model files.
+    # "cache: false" = DVC does NOT copy them into its cache or remote, and
+    # they are NOT committed to Git either (.gitignore blocks them).
+    # Why: so that a plain "dvc pull" on a fresh clone works without errors.
+    # The model is cheap to rebuild with "dvc repro".
+    outs:
+      - artifacts/model.joblib:
+          cache: false
+      - artifacts/model_card.json:
+          cache: false
+
+    # A metrics file. "cache: false" means Git can keep this small JSON file.
+    metrics:
+      - artifacts/metrics.json:
+          cache: false
