@@ -1,0 +1,5 @@
+# .dvcignore -- files DVC should not scan.
+.venv
+venv
+__pycache__
+.pytest_cache

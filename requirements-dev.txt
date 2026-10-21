@@ -1,0 +1,10 @@
+# Local tools for YOU (not installed inside the Docker image).
+# One command installs everything you need on your laptop:
+#   pip install -r requirements-dev.txt
+-r requirements-train.txt
+-r requirements-serve.txt
+dvc==3.67.1
+# DVC needs this helper package. We pin it because a wrong version can break DVC.
+pathspec==1.1.1
+httpx==0.28.1
+pytest==8.3.4
