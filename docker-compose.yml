@@ -1,0 +1,44 @@
+# docker-compose.yml -- runs the API and Redis together (Task 14).
+# Start it with:  docker compose up -d --build
+#
+# All settings come from the .env file (see .env.example).
+# (No "version:" line: current Docker Compose ignores it.)
+
+services:
+
+  # ---- Redis: stores the request counter ----
+  redis:
+    image: redis:7.2.4-alpine            # exact tag, never "latest"
+    command: ["redis-server", "--appendonly", "yes"]   # write every change to disk
+    volumes:
+      - redis-data:/data                 # named volume keeps the counter safe
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    # No "ports:" here. Only the api is reachable from your computer.
+
+  # ---- api: our FastAPI service ----
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODEL_VERSION: ${MODEL_VERSION:-1.0.0}
+        GIT_SHA: ${GIT_SHA:-unknown}
+    # Image name = <your Docker Hub username>/breast-cancer-triage-api:<tag>
+    image: ${DOCKERHUB_USERNAME:?Set DOCKERHUB_USERNAME in your .env file}/breast-cancer-triage-api:${IMAGE_TAG:-1.0.0}
+    ports:
+      - "${HOST_PORT:-8000}:8000"        # host port is configurable
+    environment:
+      REDIS_HOST: redis                  # the api finds Redis by its service name
+      REDIS_PORT: 6379
+      DECISION_THRESHOLD: ${DECISION_THRESHOLD:-0.5}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      redis:
+        condition: service_healthy       # start api only when redis is healthy
+
+volumes:
+  redis-data:
