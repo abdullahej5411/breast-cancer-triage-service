@@ -1,0 +1,38 @@
+# .dockerignore -- files Docker must NOT send to the build.
+# This keeps the "build context" small and fast.
+#
+# NOTE: data/ is NOT listed here on purpose.
+# The training stage needs data/raw/breast_cancer.csv.
+
+# Git and DVC internals (can be very big)
+.git
+.gitignore
+.dvc
+.dvcignore
+dvc-remote
+dvc.yaml
+dvc.lock
+
+# Python virtual environments and caches
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+
+# Old model files from your laptop (the image trains its own)
+artifacts
+
+# Secrets and local settings
+.env
+
+# Things the image does not need
+tests
+README.md
+docker-compose.yml
+docker-compose.hub.yml
+.env.example
+requirements-dev.txt
+
+# Local helper file
+payload.json
