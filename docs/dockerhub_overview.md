@@ -31,7 +31,7 @@ Interactive docs: `http://localhost:8000/docs`
 ## Run with `docker run` (no Redis)
 
 ```
-docker run -d --name triage -p 8000:8000 <dockerhub-username>/breast-cancer-triage-api:1.0.0
+docker run -d --name triage -p 8000:8000 abdullahej5411/breast-cancer-triage-api:1.0.0
 ```
 
 Then open <http://localhost:8000/docs>.
@@ -41,7 +41,7 @@ Then open <http://localhost:8000/docs>.
 Create a `.env` file:
 
 ```
-DOCKERHUB_USERNAME=<dockerhub-username>
+DOCKERHUB_USERNAME=abdullahej5411
 IMAGE_TAG=1.0.0
 HOST_PORT=8000
 DECISION_THRESHOLD=0.5
@@ -71,4 +71,4 @@ The image runs as a non-root user and has a built-in health check.
 
 ## Source code
 
-GitHub: <https://github.com/<your-github-username>/breast-cancer-triage-service>
+GitHub: <https://github.com/abdullahej5411/breast-cancer-triage-service>

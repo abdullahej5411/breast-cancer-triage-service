@@ -1,0 +1,33 @@
+# docker-compose.hub.yml -- runs the PUBLISHED image from Docker Hub (Task 17).
+# It has NO "build" section. Only this file and a .env file are needed.
+# Start it with:  docker compose -f docker-compose.hub.yml up -d
+
+services:
+
+  redis:
+    image: redis:7.2.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    # Pulled from Docker Hub. The tag is pinned (default 1.0.0), not "latest".
+    image: ${DOCKERHUB_USERNAME:?Set DOCKERHUB_USERNAME in your .env file}/breast-cancer-triage-api:${IMAGE_TAG:-1.0.0}
+    ports:
+      - "${HOST_PORT:-8000}:8000"
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      DECISION_THRESHOLD: ${DECISION_THRESHOLD:-0.5}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      redis:
+        condition: service_healthy
+
+volumes:
+  redis-data:
