@@ -1,0 +1,2 @@
+# Treat DVC cache and remote files as binary so Git never converts line endings
+dvc-remote/** -text
