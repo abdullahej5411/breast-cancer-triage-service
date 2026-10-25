@@ -6,7 +6,7 @@ run together with Redis using Docker Compose, and its dataset is versioned with 
 
 > This is an educational exercise for the MLOps course. It is **not** a medical device.
 
-**Docker Hub image:** `docker.io/<your-dockerhub-username>/breast-cancer-triage-api` (tags `1.0.0` and `latest`)
+**Docker Hub image:** `docker.io/abdullahej5411/breast-cancer-triage-api` (tags `1.0.0` and `latest`)
 
 ---
 
@@ -75,7 +75,7 @@ Commands work in both PowerShell and bash unless a note says otherwise.
 ### 4.1 Clone and set up Python
 
 ```
-git clone https://github.com/<your-github-username>/breast-cancer-triage-service.git
+git clone https://github.com/abdullahej5411/breast-cancer-triage-service.git
 cd breast-cancer-triage-service
 python -m venv .venv
 ```
@@ -152,13 +152,13 @@ The dataset must exist before building (`dvc pull`, step 4.2).
 docker build -f Dockerfile.naive -t breast-cancer-triage-api:naive .
 
 # Production image (replace the placeholders)
-docker build -t <dockerhub-username>/breast-cancer-triage-api:1.0.0 --build-arg MODEL_VERSION=1.0.0 --build-arg GIT_SHA=<short-git-sha> .
+docker build -t abdullahej5411/breast-cancer-triage-api:1.0.0 --build-arg MODEL_VERSION=1.0.0 --build-arg GIT_SHA=<short-git-sha> .
 ```
 
 ### 4.7 Run the production image on its own (no Redis)
 
 ```
-docker run -d --name triage -p 8000:8000 <dockerhub-username>/breast-cancer-triage-api:1.0.0
+docker run -d --name triage -p 8000:8000 abdullahej5411/breast-cancer-triage-api:1.0.0
 docker ps
 docker logs triage
 ```
@@ -166,7 +166,7 @@ docker logs triage
 Change a setting without rebuilding:
 
 ```
-docker run -d --name triage-strict -p 8001:8000 -e DECISION_THRESHOLD=0.3 -e LOG_LEVEL=DEBUG <dockerhub-username>/breast-cancer-triage-api:1.0.0
+docker run -d --name triage-strict -p 8001:8000 -e DECISION_THRESHOLD=0.3 -e LOG_LEVEL=DEBUG abdullahej5411/breast-cancer-triage-api:1.0.0
 ```
 
 ### 4.8 Start the Compose stack (API + Redis)
@@ -191,9 +191,9 @@ docker compose down -v
 
 ```
 docker login
-docker tag <dockerhub-username>/breast-cancer-triage-api:1.0.0 <dockerhub-username>/breast-cancer-triage-api:latest
-docker push <dockerhub-username>/breast-cancer-triage-api:1.0.0
-docker push <dockerhub-username>/breast-cancer-triage-api:latest
+docker tag abdullahej5411/breast-cancer-triage-api:1.0.0 abdullahej5411/breast-cancer-triage-api:latest
+docker push abdullahej5411/breast-cancer-triage-api:1.0.0
+docker push abdullahej5411/breast-cancer-triage-api:latest
 ```
 
 ### 4.10 Run the published image from an empty folder
